@@ -16,7 +16,7 @@ The criteria stat code format
 
 # Stat Events
 
-By looking at stat codes (for example "c_aku__shw_g") it is unclear what stat event (in this case "shw"). I took a look at the battlelog apk awards json file (my interest in bf4 stats research appeared when i stumbled upon this file). I understood that these short names are stat events (for example "kwa" => StatEvent_KillWith_X_As_Y), so i looked further to get full stat event list. I searched for these stat events in bf4 ebx files (https://github.com/GreyDynamics/BF4_EBX) and found a place where stat event enum is used (https://github.com/GreyDynamics/BF4_EBX/blob/4e19b479df7294c70744fedf762575bdef9c6db8/Persistence/SpamSettings_offset_.txt). In order to get full stat event list, i needed to dump that particular ebx file, so i did and got the full stat event list. In order to get this stat event list usable i wrote this stat event enum in C#. You can see it down below. Commnets - some descriptions i found for stat events while looking at bf4 ebx files.
+By looking at stat codes (for example "c_aku__shw_g") it is unclear what stat event (in this case "shw"). I took a look at the battlelog apk awards json file (my interest in bf4 stats research appeared when i stumbled upon this file). I understood that these short names are stat events (for example "kwa" => StatEvent_KillWith_X_As_Y), so i looked further to get full stat event list. I searched for these stat events in bf4 ebx files (https://github.com/GreyDynamics/BF4_EBX) and found a place where stat event enum is used (https://github.com/GreyDynamics/BF4_EBX/blob/4e19b479df7294c70744fedf762575bdef9c6db8/Persistence/SpamSettings_offset_.txt). In order to get full stat event list, i needed to dump that particular ebx file, so i did and got the full stat event list (From server version R58). In order to get this stat event list usable i wrote this stat event enum in C#. You can see it down below. Commnets - some descriptions i found for stat events while looking at bf4 ebx files.
 
 ```C#
 enum StatEvent
@@ -341,10 +341,48 @@ static StatEvent getStatEvent(string shortName)
         "bc" => StatEvent.BombCarrierKilled,
         "kak" => StatEvent.KillAssistAsKill,
         "skak" => StatEvent.SquadKillAssistAsKill,
-
-
+        
         //"ct" => StatEvent.CHLK_BreakTwoLink, //ct could mean anything, i have no idea at all what it could mean
         _ => StatEvent.Invalid,
+    };
+}
+```
+
+# Criteria Types
+
+Same like stat events, i found criteria types in bf4 ebx. Here are all of them in C#
+
+```C#
+enum CriteriaType
+{
+    IAR_InARound,
+    IAR_InARoundResetIfValueNotChanged,
+    IAS_InASpawn,
+    IAS_InASpawnNotResetable,
+    IAS_InASpawnWithoutTakingDamage,
+    LEVEL_HighestValue,
+    GLOBAL_AllTimeTotal,
+    GLOBAL_HighestValue,
+    GLOBAL_HighestValueAlways,
+    GLOBAL_HighestValueInASpawn,
+    GLOBAL_LowestValueAlways,
+    IfNotTrue,
+    IAD_InADeathStreak,
+    LAST_ITEM
+}
+```
+and the short names i was able to find. And again as you see i was not able to find all of them.
+
+```C#
+static CriteriaType getCriteriaType(string shortName)
+{
+    return shortName switch
+    {
+        "g" => CriteriaType.GLOBAL_AllTimeTotal,
+        "ghva" => CriteriaType.GLOBAL_HighestValueAlways,
+        "ghvs" => CriteriaType.GLOBAL_HighestValueInASpawn, //not sure about this one
+        "lhv" => CriteriaType.LEVEL_HighestValue,
+        _ => CriteriaType.LAST_ITEM,
     };
 }
 ```
