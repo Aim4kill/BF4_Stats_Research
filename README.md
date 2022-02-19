@@ -1,7 +1,8 @@
 # BF4_Stats_Research
 
 Here i am trying to understand stat values that are sent from blaze server, more specifically the stat values that starts with c_  
-Later i may look at other stat values.
+Later i may look at other stat values. If you are willing to use this research data in your code, please note that this data may not be accurate, i might be mistaken somewhere.
+This research is stil work in progress and this file will be updated when i will have interest in doing so :)
 
 # Criteria stat codes
 
@@ -231,7 +232,7 @@ enum StatEvent
 ```
 
 
-Unfortunately i was not able to find stat event map (get enum by short name), so i compiled my own (I downloaded my stats from zlo, and looked at all stat event short names) + some automated tools to look at battlelog dump. Please note that this may not be accurate and currently i do not have short names for all stat events.
+Unfortunately i was not able to find stat event map (short name - enum), so i compiled my own (I downloaded my stats from zlo, and looked at all stat event short names) + some automated tools to look at battlelog dump + bf4 stat value template (https://raw.githubusercontent.com/GreyDynamics/BF4_EBX/4e19b479df7294c70744fedf762575bdef9c6db8/Persistence/ValueTemplates/MultiplayerTemplate_offset_.txt). Please note that this may not be accurate and currently i do not have short names for all stat events.
 
 ```C#
 
@@ -350,6 +351,7 @@ static StatEvent getStatEvent(string shortName)
 
 # Criteria Types
 
+Example: "c___shw_g" (Here criteria type would be "g" which stands for CriteriaType_GLOBAL_AllTimeTotal)  
 Same like stat events, i found criteria types in bf4 ebx. Here are all of them in C#
 
 ```C#
