@@ -6,7 +6,7 @@ Later i may look at other stat values.
 # Criteria stat codes
 
 -----------------------------------------------------------  
-The criteria stat code format (2 
+The criteria stat code format
   1) **c_code_paramX_paramY_statEvent_criteriaType**
   2) **c_paramX_paramY_statEvent_criteriaType**
 -----------------------------------------------------------  
